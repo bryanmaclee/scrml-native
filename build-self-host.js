@@ -3,37 +3,33 @@
  * @script build-self-host
  * Compile scrml self-hosted compiler modules to ES module JS.
  *
- * Compiles stdlib/compiler/*.scrml in library mode and writes output to
- * compiler/dist/self-host/. These compiled modules can then be loaded by
- * the compiler CLI's --self-host flag to replace the JS originals.
+ * Compiles src/*.scrml in library mode and writes output to dist/self-host/.
+ * These compiled modules can be loaded by the scrmlTS compiler CLI's
+ * --self-host flag to replace the JS originals.
  *
- * After compilation, copies any runtime dependencies that the compiled
- * modules require (e.g. expression-parser.js imported by meta-checker).
+ * compileScrml is imported from the sibling scrmlTS repo during the split
+ * phase (scrmlTS is still authoritative for the JS compiler + api.js).
  *
  * Usage:
- *   bun run compiler/scripts/build-self-host.js
- *   bun compiler/scripts/build-self-host.js [--verbose]
+ *   bun build-self-host.js [--verbose]
  *
  * Output:
- *   compiler/dist/self-host/module-resolver.js
- *   compiler/dist/self-host/meta-checker.js
- *   compiler/dist/self-host/expression-parser.js  (dependency of meta-checker)
+ *   dist/self-host/*.js
  */
 
-import { mkdirSync, existsSync, copyFileSync, readFileSync } from "fs";
+import { mkdirSync, existsSync, copyFileSync, readFileSync, writeFileSync } from "fs";
 import { resolve, dirname, join } from "path";
-import { compileScrml } from "../src/api.js";
+import { compileScrml } from "../scrmlTS/compiler/src/api.js";
 
 // ---------------------------------------------------------------------------
 // Paths
 // ---------------------------------------------------------------------------
 
 const scriptDir = dirname(new URL(import.meta.url).pathname);
-const compilerRoot = resolve(scriptDir, "..");           // compiler/
-const projectRoot = resolve(compilerRoot, "..");          // scrml8/
-const stdlibCompilerDir = resolve(projectRoot, "stdlib", "compiler");
-const srcDir = resolve(compilerRoot, "src");
-const outputDir = resolve(compilerRoot, "dist", "self-host");
+const repoRoot = scriptDir;                              // scrml/
+const srcDir = resolve(repoRoot, "src");
+const outputDir = resolve(repoRoot, "dist", "self-host");
+const scrmlTsCompilerSrc = resolve(repoRoot, "..", "scrmlTS", "compiler", "src");
 
 // ---------------------------------------------------------------------------
 // Modules to compile
@@ -41,56 +37,16 @@ const outputDir = resolve(compilerRoot, "dist", "self-host");
 // ---------------------------------------------------------------------------
 
 const modules = [
-  {
-    name: "module-resolver",
-    scrmlFile: resolve(stdlibCompilerDir, "module-resolver.scrml"),
-    outputBase: "module-resolver",
-  },
-  {
-    name: "meta-checker",
-    scrmlFile: resolve(stdlibCompilerDir, "meta-checker.scrml"),
-    outputBase: "meta-checker",
-  },
-  {
-    name: "block-splitter",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "bs.scrml"),
-    outputBase: "block-splitter",
-  },
-  {
-    name: "body-pre-parser",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "bpp.scrml"),
-    outputBase: "body-pre-parser",
-  },
-  {
-    name: "tokenizer",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "tab.scrml"),
-    outputBase: "tokenizer",
-  },
-  {
-    name: "ast-builder",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "ast.scrml"),
-    outputBase: "ast-builder",
-  },
-  {
-    name: "protect-analyzer",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "pa.scrml"),
-    outputBase: "pa",
-  },
-  {
-    name: "route-inference",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "ri.scrml"),
-    outputBase: "ri",
-  },
-  {
-    name: "type-system",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "ts.scrml"),
-    outputBase: "ts",
-  },
-  {
-    name: "dependency-graph",
-    scrmlFile: resolve(projectRoot, "compiler", "self-host", "dg.scrml"),
-    outputBase: "dg",
-  },
+  { name: "module-resolver",  scrmlFile: resolve(srcDir, "module-resolver.scrml"), outputBase: "module-resolver" },
+  { name: "meta-checker",     scrmlFile: resolve(srcDir, "meta-checker.scrml"),    outputBase: "meta-checker" },
+  { name: "block-splitter",   scrmlFile: resolve(srcDir, "bs.scrml"),              outputBase: "block-splitter" },
+  { name: "body-pre-parser",  scrmlFile: resolve(srcDir, "bpp.scrml"),             outputBase: "body-pre-parser" },
+  { name: "tokenizer",        scrmlFile: resolve(srcDir, "tab.scrml"),             outputBase: "tokenizer" },
+  { name: "ast-builder",      scrmlFile: resolve(srcDir, "ast.scrml"),             outputBase: "ast-builder" },
+  { name: "protect-analyzer", scrmlFile: resolve(srcDir, "pa.scrml"),              outputBase: "pa" },
+  { name: "route-inference",  scrmlFile: resolve(srcDir, "ri.scrml"),              outputBase: "ri" },
+  { name: "type-system",      scrmlFile: resolve(srcDir, "ts.scrml"),              outputBase: "ts" },
+  { name: "dependency-graph", scrmlFile: resolve(srcDir, "dg.scrml"),              outputBase: "dg" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -108,7 +64,7 @@ const modules = [
 const runtimeDeps = [
   {
     name: "expression-parser.js",
-    src: resolve(srcDir, "expression-parser.ts"),
+    src: resolve(scrmlTsCompilerSrc, "expression-parser.ts"),
     // Required by: meta-checker.js (from ^{} import)
   },
 ];
@@ -216,7 +172,6 @@ for (const dep of runtimeDeps) {
       const transpiler = new Bun.Transpiler({ loader: "ts" });
       const source = readFileSync(dep.src, "utf8");
       const js = transpiler.transformSync(source);
-      const { writeFileSync } = await import("fs");
       writeFileSync(destPath, js);
       console.log(`  TRANSPILE  ${dep.name} (ts→js) → ${destPath}`);
     } else {
@@ -247,8 +202,11 @@ for (const { src, alias } of aliases) {
 // These files emit JS code strings containing braces that confuse the
 // block splitter's brace-depth tracking. Rather than fighting the BS,
 // we concatenate the ported JS sections directly into an ES module.
+//
+// NOTE (split phase): cg-parts/ was not copied into this repo during the
+// scrml8 → scrml split. If a local src/cg-parts/ exists we assemble cg.js;
+// otherwise this step is a graceful skip and cg.js comes from scrmlTS.
 console.log("");
-console.log("Assembling CG (codegen) from sections:");
 const cgSections = [
   "section-core.js",
   "section-rewrite.js",
@@ -256,27 +214,31 @@ const cgSections = [
   "section-emit-wiring.js",
   "section-assembly.js",
 ];
-const cgPartsDir = resolve(projectRoot, "compiler", "self-host", "cg-parts");
+const cgPartsDir = resolve(srcDir, "cg-parts");
 const cgOutputPath = join(outputDir, "cg.js");
-try {
-  let cgContent = "// Self-hosted CG — assembled from ported JS sections\n";
-  for (const section of cgSections) {
-    const sectionPath = join(cgPartsDir, section);
-    if (!existsSync(sectionPath)) {
-      console.error(`  SKIP  ${section} — not found`);
-      allPassed = false;
-      continue;
+if (!existsSync(cgPartsDir)) {
+  console.log(`CG assembly: SKIP — no src/cg-parts/ in this repo (split phase; cg-parts still in scrml8)`);
+} else {
+  console.log("Assembling CG (codegen) from sections:");
+  try {
+    let cgContent = "// Self-hosted CG — assembled from ported JS sections\n";
+    for (const section of cgSections) {
+      const sectionPath = join(cgPartsDir, section);
+      if (!existsSync(sectionPath)) {
+        console.error(`  SKIP  ${section} — not found`);
+        allPassed = false;
+        continue;
+      }
+      cgContent += `\n// --- ${section} ---\n`;
+      cgContent += readFileSync(sectionPath, "utf8");
+      console.log(`  INCLUDE  ${section}`);
     }
-    cgContent += `\n// --- ${section} ---\n`;
-    cgContent += readFileSync(sectionPath, "utf8");
-    console.log(`  INCLUDE  ${section}`);
+    writeFileSync(cgOutputPath, cgContent);
+    console.log(`  ASSEMBLED  cg.js → ${cgOutputPath}`);
+  } catch (err) {
+    console.error(`  FAIL  cg.js: ${err.message}`);
+    allPassed = false;
   }
-  const { writeFileSync: _writeSync } = await import("fs");
-  _writeSync(cgOutputPath, cgContent);
-  console.log(`  ASSEMBLED  cg.js → ${cgOutputPath}`);
-} catch (err) {
-  console.error(`  FAIL  cg.js: ${err.message}`);
-  allPassed = false;
 }
 
 console.log("");
