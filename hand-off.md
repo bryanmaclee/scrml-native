@@ -8,8 +8,24 @@
 
 ## Session Work
 
-*(in progress)*
+### 1. Session start housekeeping (DONE) — commit `2230749`
+- Rotated hand-off-2.md, created fresh hand-off.md
+- Committed `pa.md` with cross-repo messaging section (user had edited this between sessions)
+- Checked inbox: empty
+- Read user-voice (scrmlTS S6-S7 entries)
+- Initialized memory system for this repo
+
+### 2. Quick wrap
+User had no further work this session — just needed the pa.md tracked and committed.
 
 ## Next up
 
-*(inherited from S2 — will update as session progresses)*
+- [ ] **Resolve spec drift** — diff this repo's `SPEC.md` against `../scrmlTS/compiler/SPEC.md`; decide sync strategy
+- [ ] **Re-evaluate `bpp.scrml` + `pa.scrml` failures** after spec sync
+- [ ] Migrate parity tests from scrmlTS
+- [ ] Idiomification pass on `ts.scrml` + `ast.scrml`
+- [ ] Port Component Expander + Meta Eval
+
+## Open questions for next session
+- What's the sync cadence with scrmlTS during the split phase? (spec copy, api.js shape, error code set)
+- Should `cg-parts/` be copied into this repo, or stay in scrml8 until CG is truly self-hosted via `cg.scrml`?
