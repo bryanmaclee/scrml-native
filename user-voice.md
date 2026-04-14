@@ -1,0 +1,5 @@
+# user-voice — scrml
+
+Verbatim user statements relevant to **scrml** (the self-host compiler repo). Append-only. Never summarized, paraphrased, or truncated.
+
+Historical entries (pre-2026-04-14, when user-voice was shared across all repos) are archived at `../scrml-support/user-voice-archive.md`.
