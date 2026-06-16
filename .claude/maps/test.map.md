@@ -11,23 +11,23 @@ No test framework detected in this repo. No `package.json` with test runner depe
 `tests/` directory exists but is **empty** at scan time.
 
 Per `master-list.md` section D:
-> "Parity tests — currently live in scrmlTS (`compiler/tests/self-host/`). Migration to this repo TBD."
+> "Parity tests — currently live in scrml (`compiler/tests/self-host/`). Migration to this repo TBD."
 
 ## Parity Test Status (from master-list.md)
 
 | Module | Parity tests exist | Location |
 |---|---|---|
-| bs.scrml | yes | `../scrmlTS/compiler/tests/self-host/` |
-| tab.scrml | yes | `../scrmlTS/compiler/tests/self-host/` |
-| ast.scrml | yes | `../scrmlTS/compiler/tests/self-host/` |
-| bpp.scrml | yes (override mechanism) | `../scrmlTS/compiler/tests/self-host/` |
-| pa.scrml | yes | `../scrmlTS/compiler/tests/self-host/` |
-| ri.scrml | yes (26 tests) | `../scrmlTS/compiler/tests/self-host/` |
+| bs.scrml | yes | `../scrml/compiler/tests/self-host/` |
+| tab.scrml | yes | `../scrml/compiler/tests/self-host/` |
+| ast.scrml | yes | `../scrml/compiler/tests/self-host/` |
+| bpp.scrml | yes (override mechanism) | `../scrml/compiler/tests/self-host/` |
+| pa.scrml | yes | `../scrml/compiler/tests/self-host/` |
+| ri.scrml | yes (26 tests) | `../scrml/compiler/tests/self-host/` |
 | ts.scrml | none listed | — |
-| dg.scrml | yes (8 tests) | `../scrmlTS/compiler/tests/self-host/` |
+| dg.scrml | yes (8 tests) | `../scrml/compiler/tests/self-host/` |
 | cg.scrml | none (stub) | — |
-| module-resolver.scrml | yes | `../scrmlTS/compiler/tests/self-host/` |
-| meta-checker.scrml | yes | `../scrmlTS/compiler/tests/self-host/` |
+| module-resolver.scrml | yes | `../scrml/compiler/tests/self-host/` |
+| meta-checker.scrml | yes | `../scrml/compiler/tests/self-host/` |
 
 ## Bootstrap Parity Status (from master-list.md)
 
@@ -36,7 +36,7 @@ Per `master-list.md` section D:
 
 ## Open Work
 
-Migration of parity tests from scrmlTS → this repo is listed as open in master-list.md.
+Migration of parity tests from scrml → this repo is listed as open in master-list.md.
 
 ## Tags
 #scrml #map #test #parity #self-host #compiler

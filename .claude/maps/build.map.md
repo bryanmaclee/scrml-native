@@ -17,7 +17,7 @@ bun build-self-host.js [-v]
 
 ### What it does (in order)
 
-1. **Compile scrml modules** — Calls `compileScrml({ mode: "library" })` from scrmlTS for each
+1. **Compile scrml modules** — Calls `compileScrml({ mode: "library" })` from scrml for each
    module. Writes `.js` output to `compiler/dist/self-host/` (path currently stale — see config.map.md).
    Suppresses `E-ROUTE-001` warnings (non-fatal for self-host code with no protected fields).
 

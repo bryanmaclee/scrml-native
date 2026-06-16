@@ -4,11 +4,11 @@
  * Compile scrml self-hosted compiler modules to ES module JS.
  *
  * Compiles src/*.scrml in library mode and writes output to dist/self-host/.
- * These compiled modules can be loaded by the scrmlTS compiler CLI's
+ * These compiled modules can be loaded by the scrml compiler CLI's
  * --self-host flag to replace the JS originals.
  *
- * compileScrml is imported from the sibling scrmlTS repo during the split
- * phase (scrmlTS is still authoritative for the JS compiler + api.js).
+ * compileScrml is imported from the sibling scrml repo during the split
+ * phase (scrml is still authoritative for the JS compiler + api.js).
  *
  * Usage:
  *   bun build-self-host.js [--verbose]
@@ -19,7 +19,7 @@
 
 import { mkdirSync, existsSync, copyFileSync, readFileSync, writeFileSync } from "fs";
 import { resolve, dirname, join } from "path";
-import { compileScrml } from "../scrmlTS/compiler/src/api.js";
+import { compileScrml } from "../scrml/compiler/src/api.js";
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -29,7 +29,7 @@ const scriptDir = dirname(new URL(import.meta.url).pathname);
 const repoRoot = scriptDir;                              // scrml/
 const srcDir = resolve(repoRoot, "src");
 const outputDir = resolve(repoRoot, "dist", "self-host");
-const scrmlTsCompilerSrc = resolve(repoRoot, "..", "scrmlTS", "compiler", "src");
+const scrmlTsCompilerSrc = resolve(repoRoot, "..", "scrml", "compiler", "src");
 
 // ---------------------------------------------------------------------------
 // Modules to compile
@@ -205,7 +205,7 @@ for (const { src, alias } of aliases) {
 //
 // NOTE (split phase): cg-parts/ was not copied into this repo during the
 // scrml8 → scrml split. If a local src/cg-parts/ exists we assemble cg.js;
-// otherwise this step is a graceful skip and cg.js comes from scrmlTS.
+// otherwise this step is a graceful skip and cg.js comes from scrml.
 console.log("");
 const cgSections = [
   "section-core.js",

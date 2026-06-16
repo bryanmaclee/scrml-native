@@ -7,15 +7,15 @@
 No `package.json`, `go.mod`, `Cargo.toml`, or other dependency manifest found in this repo.
 
 This is a **source-only** self-host repo. The `.scrml` modules have no runtime npm dependencies of
-their own — they are compiled by scrmlTS's `compileScrml()` function (external dependency, lives in
-`../scrmlTS/`).
+their own — they are compiled by scrml's `compileScrml()` function (external dependency, lives in
+`../scrml/`).
 
 ## Runtime Dependencies (from build-self-host.js)
 
 | Import | Source | Purpose |
 |---|---|---|
-| `compileScrml` | `../src/api.js` (scrmlTS) | Compiles `.scrml` source to JS via library mode |
-| `expression-parser.js` | `../scrmlTS/compiler/src/expression-parser.ts` | Runtime dep copied to `dist/self-host/` for meta-checker |
+| `compileScrml` | `../src/api.js` (scrml) | Compiles `.scrml` source to JS via library mode |
+| `expression-parser.js` | `../scrml/compiler/src/expression-parser.ts` | Runtime dep copied to `dist/self-host/` for meta-checker |
 | Node `fs` built-ins | `mkdirSync, existsSync, copyFileSync, readFileSync, writeFileSync` | File I/O for build script |
 | Node `path` built-ins | `resolve, dirname, join` | Path construction |
 | `Bun.Transpiler` | Bun runtime | TS→JS transpilation of `expression-parser.ts` |

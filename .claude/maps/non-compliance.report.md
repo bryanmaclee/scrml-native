@@ -32,7 +32,7 @@ Specifically:
 - `projectRoot = compilerRoot/..` targets the scrml8 project root, not this repo's root
 - All module source paths resolve to `compiler/self-host/*.scrml` and `stdlib/compiler/*.scrml`
   within the scrml8 tree — none of these paths exist in this repo
-- `srcDir` resolves to `../src/api.js` (scrmlTS), not this repo's `src/`
+- `srcDir` resolves to `../src/api.js` (scrml), not this repo's `src/`
 - `cg-parts/` directory referenced but absent from this repo
 
 As written, running `bun build-self-host.js` from this repo will SKIP every module ("source not
@@ -40,8 +40,8 @@ found") and produce no output.
 
 **Suggested disposition:** Update `build-self-host.js` to use this repo's actual layout:
 - Source modules: `src/*.scrml` (flat, relative to this repo root)
-- `compileScrml` import: absolute path to scrmlTS `../scrmlTS/compiler/src/api.js` or add
-  scrmlTS as a workspace dependency
+- `compileScrml` import: absolute path to scrml `../scrml/compiler/src/api.js` or add
+  scrml as a workspace dependency
 - Output dir: relative to this repo (e.g., `dist/self-host/`)
 - `cg-parts/` either port from scrml8 or note as not-yet-migrated
 
@@ -52,12 +52,12 @@ found") and produce no output.
 ### `SPEC.md`
 
 **Reason:** Copy vs. authoritative source drift  
-**What to check:** `pa.md` explicitly states "spec changes flow from scrmlTS" and "scrmlTS is
+**What to check:** `pa.md` explicitly states "spec changes flow from scrml" and "scrml is
 authoritative during split phase." SPEC.md in this repo is dated 2026-04-10 (per SPEC-INDEX.md
-last-updated). Verify this copy is current with `../scrmlTS/compiler/SPEC.md`. If scrmlTS has
+last-updated). Verify this copy is current with `../scrml/compiler/SPEC.md`. If scrml has
 received spec commits since the split, this copy may be behind. Run:
 ```
-diff /home/bryan-maclee/scrmlMaster/scrml/SPEC.md /home/bryan-maclee/scrmlMaster/scrmlTS/compiler/SPEC.md
+diff /home/bryan-maclee/scrmlMaster/scrml/SPEC.md /home/bryan-maclee/scrmlMaster/scrml/compiler/SPEC.md
 ```
 If it diffs, the copy here is stale — update before any agent reads it as authoritative.
 

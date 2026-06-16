@@ -5,8 +5,8 @@
 ## Overview
 
 This is a `.scrml` source repo — error types are defined in PIPELINE.md stage contracts and
-SPEC.md §34, not in TypeScript files. The compiled output (`.js`) is consumed by scrmlTS's
-`--self-host` flag; error handling is in scrmlTS's caller layer.
+SPEC.md §34, not in TypeScript files. The compiled output (`.js`) is consumed by scrml's
+`--self-host` flag; error handling is in scrml's caller layer.
 
 ## Error Types by Stage (from PIPELINE.md — normative)
 

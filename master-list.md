@@ -10,7 +10,7 @@
 
 | File | LOC | Purpose | Status |
 |---|---|---|---|
-| `bs.scrml` | 894 | Block splitter | Wired + parity tests in scrmlTS |
+| `bs.scrml` | 894 | Block splitter | Wired + parity tests in scrml |
 | `tab.scrml` | 1,115 | Tokenizer | Wired + parity tests |
 | `ast.scrml` | 3,551 | AST builder | Wired + parity tests |
 | `bpp.scrml` | 230 | Body pre-parser | Wired + override mechanism |
@@ -28,25 +28,25 @@
 
 ---
 
-## B. Spec (copy — primary in scrmlTS)
+## B. Spec (copy — primary in scrml)
 
 - [x][x] `SPEC.md` (18,753 lines, 53 sections)
 - [x][x] `SPEC-INDEX.md`
 - [x][x] `PIPELINE.md` (1,569 lines)
 
-Spec changes flow from scrmlTS. This repo syncs after scrmlTS updates.
+Spec changes flow from scrml. This repo syncs after scrml updates.
 
 ---
 
 ## C. Build
 
-- [x][x] `build-self-host.js` — produces compiled `.scrml` → `.js` modules consumed by scrmlTS `--self-host`
+- [x][x] `build-self-host.js` — produces compiled `.scrml` → `.js` modules consumed by scrml `--self-host`
 
 ---
 
 ## D. Tests
 
-- [ ][ ] Parity tests — currently live in scrmlTS (`compiler/tests/self-host/`). Migration to this repo TBD.
+- [ ][ ] Parity tests — currently live in scrml (`compiler/tests/self-host/`). Migration to this repo TBD.
 
 ---
 
@@ -57,19 +57,19 @@ Spec changes flow from scrmlTS. This repo syncs after scrmlTS updates.
 - [ ][ ] `ast.scrml` (3,551 lines) — tighten patterns
 - Others confirmed already idiomatic or close
 
-### Not yet self-hosted (remain in scrmlTS)
+### Not yet self-hosted (remain in scrml)
 - [ ][ ] Component Expander — port to `ce.scrml`
 - [ ][ ] Meta Eval — port to `me.scrml`
 
 ### Cleanup (post-split)
 - [ ][ ] Non-compliance audit — run updated project-mapper to find stale docs
-- [ ][ ] Migrate parity tests from scrmlTS
+- [ ][ ] Migrate parity tests from scrml
 - [ ][ ] First cold project map
 
 ---
 
 ## F. Cross-repo
 
-- **scrmlTS** — TS/JS compiler, parity target
+- **scrml** — TS/JS compiler, parity target
 - **scrml-support** — idiomification notes, self-host design rationale
 - **scrml8** — frozen archive

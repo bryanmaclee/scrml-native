@@ -13,11 +13,11 @@ Size:       ~13 files (11 .scrml modules + build script + spec copies)
 ## Repo Context
 
 This is the **pure self-host** repo. It contains the scrml compiler written in scrml.
-The ultimate goal: these modules replace the TypeScript originals in scrmlTS.
+The ultimate goal: these modules replace the TypeScript originals in scrml.
 
-- Spec authority: `../scrmlTS/compiler/SPEC.md` (primary during split phase). This repo
+- Spec authority: `../scrml/compiler/SPEC.md` (primary during split phase). This repo
   carries a copy (`SPEC.md`) for convenience.
-- Parity target: `../scrmlTS/` (TS compiler)
+- Parity target: `../scrml/` (TS compiler)
 - Bootstrap status: L2 + L3 complete (master-list.md)
 - Open self-hosting gaps: CE (Component Expander), ME (Meta Eval) — not yet ported
 
@@ -31,7 +31,7 @@ The ultimate goal: these modules replace the TypeScript originals in scrmlTS.
 | config.map.md | present | no env vars; build script path staleness noted |
 | build.map.md | present | build-self-host.js, CG assembly, stale path warning |
 | error.map.md | present | pipeline error codes by stage |
-| test.map.md | present | empty tests/; parity tests in scrmlTS |
+| test.map.md | present | empty tests/; parity tests in scrml |
 | pipeline.map.md | present | all 11 stage contracts, I/O shapes, key invariants |
 | api.map.md | absent | not applicable (compiler, not web API) |
 | state.map.md | absent | not applicable |
@@ -57,18 +57,18 @@ package / runtime dependencies           → dependencies.map.md
 
 ## Key Facts
 
-- Entry point for building: `build-self-host.js` (Bun script) — calls scrmlTS's `compileScrml()`
+- Entry point for building: `build-self-host.js` (Bun script) — calls scrml's `compileScrml()`
   on each `.scrml` module; writes `.js` to `compiler/dist/self-host/` (paths are stale from scrml8 split)
 - All 11 modules live flat in `src/` with no subdirectories
 - `bpp.scrml` (230 LOC) is a legacy artifact — BPP stage was removed in PIPELINE v0.6.0 and
   `bpp.scrml` is not compiled by the current build script
 - `cg.scrml` is a 21-line loader stub — actual CG logic is raw JS in `cg-parts/` (not yet present
   in this repo at scan time)
-- `meta-checker.scrml` has a runtime dependency on `expression-parser.js` (copied from scrmlTS at build time)
+- `meta-checker.scrml` has a runtime dependency on `expression-parser.js` (copied from scrml at build time)
 - `ast.scrml` imports its tokenizer as `"./tokenizer.js"` — the build script creates this alias
   by copying `tab.js` → `tokenizer.js` post-compile
-- Spec copy in this repo: SPEC.md (18,521 lines, 53 sections) — scrmlTS is authoritative during split phase
-- Tests directory is empty; parity tests live in `../scrmlTS/compiler/tests/self-host/` (migration planned)
+- Spec copy in this repo: SPEC.md (18,521 lines, 53 sections) — scrml is authoritative during split phase
+- Tests directory is empty; parity tests live in `../scrml/compiler/tests/self-host/` (migration planned)
 - Open idiomification work: `ts.scrml` (2,570 LOC) and `ast.scrml` (3,551 LOC) flagged in master-list.md
 
 ## Tags

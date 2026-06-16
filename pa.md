@@ -2,13 +2,13 @@
 
 ## What is this repo?
 
-**scrml** is the **pure self-host** — the scrml compiler written in scrml. Flat, clean, minimal. The 11 modules here are the L2/L3 bootstrap targets: everything in scrmlTS that's written in TypeScript/JavaScript has a scrml counterpart here.
+**scrml-native** is the **pure self-host** — the scrml compiler written in scrml. Flat, clean, minimal. The 11 modules here are the L2/L3 bootstrap targets: everything in scrml that's written in TypeScript/JavaScript has a scrml counterpart here.
 
-The ultimate goal: this repo **becomes** the compiler, and scrmlTS becomes legacy once idiomification + Component Expander/Meta Eval self-hosting are complete.
+The ultimate goal: this repo **becomes** the compiler, and scrml becomes legacy once idiomification + Component Expander/Meta Eval self-hosting are complete.
 
 ## Scope principle — "current truth only"
 
-Same as scrmlTS. Only files that match current spec + behavior. No historical drafts, no superseded designs, no aspirational docs. History lives in `scrml-support`.
+Same as scrml. Only files that match current spec + behavior. No historical drafts, no superseded designs, no aspirational docs. History lives in `scrml-support`.
 
 ## Repo layout
 
@@ -17,7 +17,7 @@ scrml/
 ├── pa.md                      this file
 ├── master-list.md             live inventory
 ├── hand-off.md                current session state
-├── SPEC.md                    copy of authoritative spec (primary lives in scrmlTS/compiler/)
+├── SPEC.md                    copy of authoritative spec (primary lives in scrml/compiler/)
 ├── SPEC-INDEX.md              quick-lookup
 ├── PIPELINE.md                stage contracts
 ├── build-self-host.js         build script
@@ -38,11 +38,11 @@ scrml/
 
 ## Spec authority
 
-The spec lives primarily in `../scrmlTS/compiler/SPEC.md`. This repo carries a copy for convenience, but during the split phase scrmlTS is authoritative. Once self-hosting is complete (or the beta team agrees), spec authority may move here.
+The spec lives primarily in `../scrml/compiler/SPEC.md`. This repo carries a copy for convenience, but during the split phase scrml is authoritative. Once self-hosting is complete (or the beta team agrees), spec authority may move here.
 
 ## Cross-repo references
 
-- **scrmlTS** at `../scrmlTS/` — where the TS compiler lives; parity target
+- **scrml** at `../scrml/` — where the TS compiler lives; parity target
 - **scrml-support** at `../scrml-support/` — deep-dives, ADRs, history, idiomification notes
 - **giti** at `../giti/` — collaboration platform
 - **6nz** at `../6nz/` — editor
@@ -52,8 +52,8 @@ The spec lives primarily in `../scrmlTS/compiler/SPEC.md`. This repo carries a c
 
 - Do not import stale or historical docs here
 - Do not edit scrml8
-- Do not commit spec changes here before they land in scrmlTS
-- Do not break L2/L3 bootstrap parity without coordinating with scrmlTS
+- Do not commit spec changes here before they land in scrml
+- Do not break L2/L3 bootstrap parity without coordinating with scrml
 
 ---
 
@@ -82,7 +82,7 @@ when work is needed there. Cross-repo coordination happens through the user, not
 ### What this PA does NOT touch
 - Any file outside this repo (except the reads listed above from scrml-support)
 - `~/projects/scrml8/` — FROZEN, read-only archive
-- Other project repos (scrmlTS, scrml, giti, 6nz, scrml-support)
+- Other project repos (scrml, scrml-native, giti, 6nz, scrml-support)
 
 ### Session-start checklist (this repo only)
 1. Read `pa.md` (this file)
@@ -120,18 +120,18 @@ when work is needed there. Cross-repo coordination happens through the user, not
 
 ## Cross-repo messaging (dropbox)
 
-**You are the PA for scrml.** Your own inbox is `handOffs/incoming/` in this repo.
+**You are the PA for scrml-native.** Your own inbox is `handOffs/incoming/` in this repo.
 
-The five ecosystem projects (scrmlTS, scrml, scrml-support, giti, 6NZ) and the master directory communicate asynchronously through file-based dropboxes. Each repo owns `handOffs/incoming/` — unread messages sit there; once this PA reads and acts on them, they move to `handOffs/incoming/read/`.
+The five ecosystem projects (scrml, scrml-native, scrml-support, giti, 6NZ) and the master directory communicate asynchronously through file-based dropboxes. Each repo owns `handOffs/incoming/` — unread messages sit there; once this PA reads and acts on them, they move to `handOffs/incoming/read/`.
 
 **This is the ONE sanctioned exception** to "do not write into sibling repos." PAs may write message files into a sibling's `handOffs/incoming/` — nothing else in the sibling repo is touched.
 
 ### Inbox (this PA reads)
-- `/home/bryan/scrmlMaster/scrml/handOffs/incoming/` — unread
-- `/home/bryan/scrmlMaster/scrml/handOffs/incoming/read/` — archive
+- `/home/bryan/scrmlMaster/scrml-native/handOffs/incoming/` — unread
+- `/home/bryan/scrmlMaster/scrml-native/handOffs/incoming/read/` — archive
 
 ### Outbox targets (this PA may write into)
-- scrmlTS:       `/home/bryan/scrmlMaster/scrmlTS/handOffs/incoming/`
+- scrml:       `/home/bryan/scrmlMaster/scrml/handOffs/incoming/`
 - scrml-support: `/home/bryan/scrmlMaster/scrml-support/handOffs/incoming/`
 - giti:          `/home/bryan/scrmlMaster/giti/handOffs/incoming/`
 - 6NZ:           `/home/bryan/scrmlMaster/6NZ/handOffs/incoming/`
@@ -140,7 +140,7 @@ The five ecosystem projects (scrmlTS, scrml, scrml-support, giti, 6NZ) and the m
 ### Message file format
 
 Filename: `YYYY-MM-DD-HHMM-<from>-to-<to>-<slug>.md`
-Example: `2026-04-12-1030-scrml-to-scrmlTS-parity-question.md`
+Example: `2026-04-12-1030-scrml-to-scrml-parity-question.md`
 
 ```markdown
 ---

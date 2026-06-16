@@ -4,7 +4,7 @@
 
 ## Entry Points
 
-`build-self-host.js` — Node/Bun script; compiles all 11 `.scrml` modules via `compileScrml()` from scrmlTS,
+`build-self-host.js` — Node/Bun script; compiles all 11 `.scrml` modules via `compileScrml()` from scrml,
 writes `.js` output to `compiler/dist/self-host/` (path is relative to scrml8 layout — see note below).
 
 **Note on build-self-host.js paths:** The script contains hardcoded paths that reference
@@ -17,13 +17,13 @@ from the split — the script was copied from scrml8 and not yet updated for thi
 ```
 scrml/
 ├── src/          — 11 self-host .scrml modules (the compiler written in scrml)
-├── tests/        — empty; parity tests currently live in scrmlTS/compiler/tests/self-host/
+├── tests/        — empty; parity tests currently live in scrml/compiler/tests/self-host/
 ├── handOffs/     — historical session hand-offs (out of scope for maps)
 └── .claude/      — agent tooling; maps/ written here
 ```
 
 `src/` — Each file is one compiler stage or sub-stage. No subdirectories. Flat layout.
-`tests/` — Empty at scan time. Migration from scrmlTS planned (master-list section D).
+`tests/` — Empty at scan time. Migration from scrml planned (master-list section D).
 `handOffs/` — Out of scope (historical). Contains `hand-off-1.md`.
 
 ## Self-Host Modules — `src/`
@@ -48,7 +48,7 @@ Total: 11 files, 12,048 LOC
 
 | File | Purpose |
 |---|---|
-| `SPEC.md` | Copy of authoritative spec (primary: `../scrmlTS/compiler/SPEC.md`). 18,521 lines, 53 sections. |
+| `SPEC.md` | Copy of authoritative spec (primary: `../scrml/compiler/SPEC.md`). 18,521 lines, 53 sections. |
 | `SPEC-INDEX.md` | Quick-lookup table: section → line range → topic |
 | `PIPELINE.md` | Stage contracts v0.6.0 — binding I/O contracts for all 11 pipeline stages |
 | `pa.md` | Per-repo PA directives and session-start checklist |

@@ -26,7 +26,7 @@ parallelism. Per-file stages run in Bun workers using `SharedArrayBuffer` + `Ato
 | 7 | DG | Dependency Graph | `src/dg.scrml` | 1,052 | project-wide |
 | 8 | CG | Code Generator | `src/cg.scrml` (stub) | 21 | per-file (after DG) |
 
-**Not yet self-hosted (remain in scrmlTS):**
+**Not yet self-hosted (remain in scrml):**
 - PP (Stage 1) — Preprocessor
 - CE (Stage 3.2) — Component Expander (`ce.scrml` planned)
 
@@ -62,7 +62,7 @@ parallelism. Per-file stages run in Bun workers using `SharedArrayBuffer` + `Ato
 - Input: Post-CE ASTs (project-wide)
 - Output: Route map `{ routeId, method, path, handler, isServer }[]`
 - Note: `FunctionDecl.isServer` from TAB is a syntactic hint; RI is authoritative for server classification
-- 26 parity tests in scrmlTS
+- 26 parity tests in scrml
 
 ### TS (Stage 6) — `src/ts.scrml`
 - Input: Per-file AST (after PA+RI complete)
@@ -81,7 +81,7 @@ parallelism. Per-file stages run in Bun workers using `SharedArrayBuffer` + `Ato
 - Output: `DGNode[]` — every node variant has `hasLift: boolean`
 - `hasLift=true` when statement(s) immediately following in same anonymous logic block contain `LiftExpr`
 - Error: `E-LIFT-001` (concurrent lift — two parallel DG nodes in same logic block both have `hasLift=true`)
-- 8 parity tests in scrmlTS
+- 8 parity tests in scrml
 
 ### CG (Stage 8) — `src/cg.scrml` (stub, 21 LOC)
 - Input: Post-DG data (per-file after DG complete)

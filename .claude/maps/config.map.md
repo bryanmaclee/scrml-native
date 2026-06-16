@@ -25,7 +25,7 @@ The build script uses `import.meta.url`-relative path resolution. Key resolved p
 | `compilerRoot` | `scriptDir/..` (expects a `compiler/` parent) | STALE — script was not updated after split from scrml8 |
 | `projectRoot` | `compilerRoot/..` | STALE — targets scrml8 tree, not this repo |
 | `stdlibCompilerDir` | `projectRoot/stdlib/compiler` | STALE |
-| `srcDir` | `compilerRoot/src` (scrmlTS src, not this repo's src/) | STALE |
+| `srcDir` | `compilerRoot/src` (scrml src, not this repo's src/) | STALE |
 | `outputDir` | `compilerRoot/dist/self-host` | STALE |
 
 The build script's path wiring assumes the scrml8 monorepo layout and will not work as-is from
